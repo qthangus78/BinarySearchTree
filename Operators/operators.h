@@ -26,4 +26,5 @@ node findClosest(node root, int x);
 void printFollowLevel(node root);
 void topViewFromRoot(node root);
 void sumofksmallest(node root, int& k, int& result);
+void printKeyInGivenRange(node root, int smaller, int larger);
 // Neu cho phep ban sao nua thi trong struct ta them bien count de dem so lan xuat hien

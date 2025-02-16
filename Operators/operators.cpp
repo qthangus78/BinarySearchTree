@@ -175,3 +175,13 @@ void sumofksmallest(node root, int& k, int& result){
     else return;
     if(root->right) sumofksmallest(root->right,k,result);
 }
+
+void printKeyInGivenRange(node root, int smaller, int larger) {
+    if (!root) return;
+    if(root->data > smaller)
+        printKeyInGivenRange(root->left, smaller, larger);
+    if(root->data >= smaller && root->data <= larger)
+        cout << root->data << " ";
+    if(root->data < larger)
+        printKeyInGivenRange(root->right, smaller, larger);
+}

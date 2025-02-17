@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <map>
+#include <math.h>
 #include "operators.h"
 using namespace std;
 
@@ -40,28 +41,28 @@ void deletionBST(node& root, int key){
     if(root->data<key) deletionBST(root->right,key);
     else if(root->data>key) deletionBST(root->left,key);
     else{
-        if(!root->left){
+        node prev = root->right;
+        node cur = prev->left;
+        if(cur){
+            prev->left = root->left;
             node tmp = root;
-            root=root->right;
+            root = prev;
             delete tmp;
-        }
-        else if(!root->right){
-            node tmp = root;
-            root=root->left;
-            delete tmp;
+            tmp = nullptr;
         }
         else{
-            node tmp = root->left;
-            node prev=tmp->right;
-            while(prev){
-                tmp=prev;
-                prev=prev->right;
-            }
-            tmp->right=root->right;
-            node cur = root;
-            root=root->left;
-            delete cur;
+        while(cur->left){
+            prev = cur;
+            cur = cur->left;
         }
+        prev->left = cur->right;
+        cur->right = root->right;
+        cur->left = root->left;
+        node tmp = root;
+        root = cur;
+        delete tmp;
+        tmp = nullptr;
+    }
     }
 }
 
@@ -117,14 +118,14 @@ node findClosest(node root, int x) {
     if(root->data < x) {
         if(!root->right) return root;
         if(root->right->data > x) {
-            return ((x - root->data) < (root->right->data - x)) ? root : root->right;
+            return (abs(x - root->data) < abs(findClosest(root->right,x)->data - x)) ? root : findClosest(root->right,x);
         }
         return findClosest(root->right, x);  
     }
     else if(root->data > x) {
         if(!root->left) return root;
         if(root->left->data < x) {
-            return ((x - root->data) < (x - root->left->data)) ? root : root->left;
+            return ((x - root->data) < (x - findClosest(root->left,x)->data)) ? root : findClosest(root->left,x);
         }
         return findClosest(root->left, x); 
     }
@@ -184,4 +185,11 @@ void printKeyInGivenRange(node root, int smaller, int larger) {
         cout << root->data << " ";
     if(root->data < larger)
         printKeyInGivenRange(root->right, smaller, larger);
+}
+
+node getLCA(node root, int x, int y){
+    if(!root) return nullptr;
+    if(x<root->data && y<root->data) return getLCA(root->left,x,y);
+    else if(x>root->data && y>root->data) return getLCA(root->right,x,y);
+    return root;
 }

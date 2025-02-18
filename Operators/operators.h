@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <unordered_map>
 using namespace std;
 
 struct Node{
@@ -27,4 +28,7 @@ void printFollowLevel(node root);
 void topViewFromRoot(node root);
 void sumofksmallest(node root, int& k, int& result);
 void printKeyInGivenRange(node root, int smaller, int larger);
+node getLCA(node root, int x, int y);
+void getSubnode(node root);
+void BinaryBalanced(node& root);
 // Neu cho phep ban sao nua thi trong struct ta them bien count de dem so lan xuat hien
